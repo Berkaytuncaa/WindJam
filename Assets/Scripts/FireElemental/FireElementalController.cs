@@ -37,7 +37,7 @@ namespace FireElemental
         // Update is called once per frame
         void Update()
         {
-            _fireElRb.velocity = _controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed;
+            _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
         }
 
         public static void Death()
