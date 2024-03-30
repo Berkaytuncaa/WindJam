@@ -8,7 +8,7 @@ namespace FireElemental
     {
         private FireElementalControls _controls;
         private Rigidbody2D _fireElRb;
-        [SerializeField] private float jumpPower;
+
         private void OnEnable()
         {
             if (_controls == null)
@@ -19,15 +19,10 @@ namespace FireElemental
             _controls.Gameplay.Enable();
         }
 
-        private void Awake()
-        {
-            _fireElRb = GetComponent<Rigidbody2D>();
-        }
-
         // Start is called before the first frame update
         void Start()
         {
-            
+        
         }
 
         // Update is called once per frame
@@ -43,7 +38,7 @@ namespace FireElemental
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            _fireElRb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            throw new NotImplementedException();
         }
     }
 }
