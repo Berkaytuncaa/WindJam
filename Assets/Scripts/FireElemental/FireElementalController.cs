@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace FireElemental
 {
@@ -11,6 +13,8 @@ namespace FireElemental
         [SerializeField] private float jumpPower;
         [SerializeField] private float moveSpeed;
 
+
+        public UnityEvent interactPressed;
         private void OnEnable()
         {
             if (_controls == null)
@@ -24,6 +28,7 @@ namespace FireElemental
 
         private void Awake()
         {
+            interactPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
         }
 
@@ -52,6 +57,11 @@ namespace FireElemental
         public void OnJump(InputAction.CallbackContext context)
         {
             _fireElRb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            interactPressed.Invoke();
         }
     }
 }
