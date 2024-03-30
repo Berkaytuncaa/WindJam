@@ -39,8 +39,7 @@ namespace Fred
 
         public void OnFire(InputAction.CallbackContext context)
         {
-            var position = _fredRb.position;
-            _fredRb.AddForceAtPosition(transform.TransformPoint(Vector2.left * moveSpeed), transform.TransformPoint(Vector2.right *.2f), ForceMode2D.Impulse);
+            _fredRb.AddForceAtPosition(Vector2.one, transform.TransformPoint(Vector2.right *.2f), ForceMode2D.Force);
         }
 
         private void OnDrawGizmos()
