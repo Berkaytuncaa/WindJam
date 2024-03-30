@@ -44,7 +44,6 @@ namespace Fred
 
         private void OnDrawGizmos()
         {
-            var position = transform.position;
             Gizmos.DrawWireSphere(transform.TransformPoint(Vector2.right * .2f), .05f);
         }
     }
