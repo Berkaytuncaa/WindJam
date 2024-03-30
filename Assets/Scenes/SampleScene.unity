@@ -518,7 +518,6 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!1001 &799619241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -582,8 +581,6 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 7fb9d679d2830f21582564488cc33e62, type: 3}
 =======
 >>>>>>> 62f76a5 (Add fire elemental controls)
-=======
->>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -591,10 +588,7 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 378613897}
 <<<<<<< HEAD
-<<<<<<< HEAD
   - {fileID: 799619241}
   - {fileID: 228097821}
 =======
 >>>>>>> 62f76a5 (Add fire elemental controls)
-=======
->>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
