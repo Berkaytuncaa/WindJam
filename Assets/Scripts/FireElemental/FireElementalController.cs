@@ -39,9 +39,13 @@ namespace FireElemental
 
         }
 
+        public void Death()
+        {
+            
+        }
+
         public void OnMove(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnJump(InputAction.CallbackContext context)
