@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 1100724029}
   - component: {fileID: 1100724028}
   - component: {fileID: 1100724030}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,14 +304,6 @@ PrefabInstance:
     - target: {fileID: 4026368745925524212, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
-      propertyPath: jumpPower
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
-      propertyPath: moveSpeed
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
