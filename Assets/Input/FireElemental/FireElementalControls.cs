@@ -64,7 +64,11 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
+<<<<<<< HEAD
                     ""groups"": ""kbdScheme"",
+=======
+                    ""groups"": """",
+>>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -75,7 +79,11 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
+<<<<<<< HEAD
                     ""groups"": ""kbdScheme"",
+=======
+                    ""groups"": """",
+>>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -86,7 +94,11 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
+<<<<<<< HEAD
                     ""groups"": ""kbdScheme"",
+=======
+                    ""groups"": """",
+>>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -97,7 +109,11 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
+<<<<<<< HEAD
                     ""groups"": ""kbdScheme"",
+=======
+                    ""groups"": """",
+>>>>>>> 62f76a519161ecd3b43e33dde2acc99bc4df6a6b
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
