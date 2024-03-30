@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace FireElemental
 {
@@ -11,6 +13,8 @@ namespace FireElemental
         [SerializeField] private float jumpPower;
         [SerializeField] private float moveSpeed;
 
+
+        public static UnityEvent InteractPressed;
         private void OnEnable()
         {
             if (_controls == null)
@@ -24,6 +28,7 @@ namespace FireElemental
 
         private void Awake()
         {
+            InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
         }
 
@@ -37,7 +42,7 @@ namespace FireElemental
         // Update is called once per frame
         void Update()
         {
-            _fireElRb.velocity = _controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed;
+            _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
         }
 
         public static void Death()
@@ -52,6 +57,11 @@ namespace FireElemental
         public void OnJump(InputAction.CallbackContext context)
         {
             _fireElRb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            InteractPressed.Invoke();
         }
     }
 }
