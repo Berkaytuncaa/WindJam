@@ -357,6 +357,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fred
       objectReference: {fileID: 0}
+    - target: {fileID: 1860616670723642934, guid: 7fb9d679d2830f21582564488cc33e62, type: 3}
+      propertyPath: moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3132964074645353399, guid: 7fb9d679d2830f21582564488cc33e62, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.41

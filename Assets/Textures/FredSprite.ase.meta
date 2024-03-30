@@ -2,7 +2,12 @@ fileFormatVersion: 2
 guid: e4b4d615eb3bcafe58ec3d1fc855e237
 ScriptedImporter:
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: FredSprite_Clip
+    second: {fileID: 7400000, guid: 79f8917da503e5d31a5c41f32bb722df, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -73,10 +78,11 @@ ScriptedImporter:
   previousAsepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
-    layerImportMode: 1
-    defaultPivotSpace: 0
-    defaultPivotAlignment: 7
+    layerImportMode: 0
+    defaultPivotSpace: 1
+    defaultPivotAlignment: 0
     customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -85,17 +91,18 @@ ScriptedImporter:
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
-    layerImportMode: 1
-    defaultPivotSpace: 0
-    defaultPivotAlignment: 7
+    layerImportMode: 0
+    defaultPivotSpace: 1
+    defaultPivotAlignment: 0
     customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638474013617357900
+  platformSettingsDirtyTick: 638474086685803850
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -119,10 +126,10 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: FredSprite_Frame_0
+  - name: Layer 1_Frame_0
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -130,7 +137,7 @@ ScriptedImporter:
       y: 4
       width: 26
       height: 21
-    spriteID: ba8559a6d26ec014299207d5d28b9f6f
+    spriteID: 09778bae5ce528a66bf1b2d3b684efd0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -139,10 +146,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: FredSprite_Frame_1
+  - name: Layer 1_Frame_1
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -150,7 +157,7 @@ ScriptedImporter:
       y: 4
       width: 26
       height: 21
-    spriteID: 956f966373342701290c69ccdf13597f
+    spriteID: 3bab3d42a9cbfdc589ac8693ec06a26c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -159,10 +166,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 38, y: 4}
-  - name: FredSprite_Frame_2
+  - name: Layer 1_Frame_2
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -170,7 +177,7 @@ ScriptedImporter:
       y: 4
       width: 26
       height: 21
-    spriteID: 86ac73e826b4edc0bb8863679d542782
+    spriteID: a9c559f7e940f0edd892c41aa3105f43
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -179,10 +186,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 72, y: 4}
-  - name: FredSprite_Frame_3
+  - name: Layer 1_Frame_3
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -190,7 +197,7 @@ ScriptedImporter:
       y: 33
       width: 26
       height: 21
-    spriteID: 53ea62818037d56e8a848e4216d9e0e9
+    spriteID: 2baf151e2f93cd745827e178d8f4e7b1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -199,10 +206,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 33}
-  - name: FredSprite_Frame_4
+  - name: Layer 1_Frame_4
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -210,7 +217,7 @@ ScriptedImporter:
       y: 33
       width: 26
       height: 21
-    spriteID: 39fd473b6cf3cbeb1bd8778db46e8723
+    spriteID: a32a49573d61123d8acdfd7a93de43e4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -219,10 +226,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 38, y: 33}
-  - name: FredSprite_Frame_5
+  - name: Layer 1_Frame_5
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -230,7 +237,7 @@ ScriptedImporter:
       y: 33
       width: 26
       height: 21
-    spriteID: 0df25e725e668f87e86768c1b218939e
+    spriteID: 7b3116e96291d2547b1b84c12eaccf5f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -239,10 +246,10 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 72, y: 33}
-  - name: FredSprite_Frame_6
+  - name: Layer 1_Frame_6
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -250,7 +257,7 @@ ScriptedImporter:
       y: 62
       width: 26
       height: 21
-    spriteID: 378aca7ed2538dc5ebc03c3747be6d65
+    spriteID: 14386936c324f5e498185c71942fd740
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -262,68 +269,68 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 581678118
-    name: FredSprite
-    layerFlags: 0
+    guid: 1317222744
+    name: Layer 1
+    layerFlags: 3
     layerType: 0
     blendMode: 0
     cells:
-    - name: FredSprite_Frame_0
+    - name: Layer 1_Frame_0
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: ba8559a6d26ec014299207d5d28b9f6f
-    - name: FredSprite_Frame_1
+      spriteId: 09778bae5ce528a66bf1b2d3b684efd0
+    - name: Layer 1_Frame_1
       frameIndex: 1
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 956f966373342701290c69ccdf13597f
-    - name: FredSprite_Frame_2
+      spriteId: 3bab3d42a9cbfdc589ac8693ec06a26c
+    - name: Layer 1_Frame_2
       frameIndex: 2
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 86ac73e826b4edc0bb8863679d542782
-    - name: FredSprite_Frame_3
+      spriteId: a9c559f7e940f0edd892c41aa3105f43
+    - name: Layer 1_Frame_3
       frameIndex: 3
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 53ea62818037d56e8a848e4216d9e0e9
-    - name: FredSprite_Frame_4
+      spriteId: 2baf151e2f93cd745827e178d8f4e7b1
+    - name: Layer 1_Frame_4
       frameIndex: 4
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 39fd473b6cf3cbeb1bd8778db46e8723
-    - name: FredSprite_Frame_5
+      spriteId: a32a49573d61123d8acdfd7a93de43e4
+    - name: Layer 1_Frame_5
       frameIndex: 5
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 0df25e725e668f87e86768c1b218939e
-    - name: FredSprite_Frame_6
+      spriteId: 7b3116e96291d2547b1b84c12eaccf5f
+    - name: Layer 1_Frame_6
       frameIndex: 6
       cellRect:
         x: 0
         y: 0
         width: 26
         height: 21
-      spriteId: 378aca7ed2538dc5ebc03c3747be6d65
+      spriteId: 14386936c324f5e498185c71942fd740
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -375,6 +382,7 @@ ScriptedImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
+  generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 26, y: 21}
