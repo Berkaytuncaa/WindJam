@@ -14,7 +14,7 @@ namespace FireElemental
         [SerializeField] private float moveSpeed;
 
 
-        public UnityEvent interactPressed;
+        public static UnityEvent InteractPressed;
         private void OnEnable()
         {
             if (_controls == null)
@@ -28,7 +28,7 @@ namespace FireElemental
 
         private void Awake()
         {
-            interactPressed = new UnityEvent();
+            InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
         }
 
@@ -61,7 +61,7 @@ namespace FireElemental
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            interactPressed.Invoke();
+            InteractPressed.Invoke();
         }
     }
 }
