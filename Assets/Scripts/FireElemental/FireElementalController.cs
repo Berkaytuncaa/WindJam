@@ -9,6 +9,7 @@ namespace FireElemental
         private FireElementalControls _controls;
         private Rigidbody2D _fireElRb;
         [SerializeField] private float jumpPower;
+        [SerializeField] private float moveSpeed;
 
         private void OnEnable()
         {
@@ -36,12 +37,12 @@ namespace FireElemental
         // Update is called once per frame
         void Update()
         {
-
+            _fireElRb.velocity = _controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed;
         }
 
-        public void Death()
+        public static void Death()
         {
-            
+            throw new NotImplementedException();
         }
 
         public void OnMove(InputAction.CallbackContext context)
