@@ -12,8 +12,14 @@ namespace FireElemental
         private Rigidbody2D _fireElRb;
         [SerializeField] private float moveSpeed;
         private Collider2D _collider;
+
         // **************** JUMP - RELATED *****************
         [SerializeField] private float jumpPower;
+        // *************************************************
+
+        // **************** BALOON - RELATED *****************
+        [SerializeField] private LayerMask baloonLayer;
+        private bool _onBaloon;
         // *************************************************
 
         // **************** GROUND - CHECK *****************
@@ -22,6 +28,7 @@ namespace FireElemental
         [SerializeField] private float castDistance;
         [SerializeField] private LayerMask groundLayer;
         // *************************************************
+
         public static UnityEvent InteractPressed;
 
         private void Awake()
@@ -49,6 +56,8 @@ namespace FireElemental
             // **************** GROUND - CHECK *****************
             _isGrounded = Physics2D.OverlapCircle(feetPos.position, castDistance, groundLayer);
             // *************************************************
+
+            _onBaloon = Physics2D.OverlapCircle(feetPos.position, castDistance, baloonLayer);
         }
 
         public static void Death()
@@ -62,7 +71,7 @@ namespace FireElemental
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (!_isGrounded)
+            if (!_isGrounded || _onBaloon)
             {
                 return;
             }
