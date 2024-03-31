@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3669908283156713025}
   - component: {fileID: 5938329601175911560}
   - component: {fileID: 898337285050239572}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FireElemental
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6156936534488072505}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: feetPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

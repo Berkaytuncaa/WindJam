@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1778944424434023757}
   - component: {fileID: -234924251927379288}
   - component: {fileID: 8507376023878807182}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AirBalloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
