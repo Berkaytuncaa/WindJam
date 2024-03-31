@@ -358,6 +358,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5938329601175911560, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
+      propertyPath: m_Simulated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938329601175911560, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
@@ -548,6 +552,10 @@ PrefabInstance:
     - target: {fileID: 4433090706107169236, guid: 3e6776ea53e74468aae4809b1836c4b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743058745832816777, guid: 3e6776ea53e74468aae4809b1836c4b4, type: 3}
+      propertyPath: m_BodyType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
