@@ -378,6 +378,10 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
+      propertyPath: baloonLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: doubleJumpingPower
       value: 4
       objectReference: {fileID: 0}
