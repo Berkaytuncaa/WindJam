@@ -100,8 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1766bbe9d4d3b193488083ba8c8ee95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 3
-  moveSpeed: 3
+  jumpPower: 1
+  moveSpeed: 1
+  castDistance: 0.03
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!70 &3669908283156713025
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
