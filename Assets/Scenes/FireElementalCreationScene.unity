@@ -297,6 +297,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 898337285050239572, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7ef706f8015c048f1becc3f9d18d2334, type: 2}
     - target: {fileID: 2835082517708333720, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: m_Name
       value: FireElemental
@@ -341,6 +345,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4596892383818759335, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5007422748360307781, guid: e3d7026d8ded34ef4b09c86e00a40866, type: 3}
     - target: {fileID: 5938329601175911560, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: m_Mass
       value: 1
@@ -379,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: baloonLayer.m_Bits
-      value: 0
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 6172483348126432382, guid: 913addcd8f95adff59b84b7500bf2069, type: 3}
       propertyPath: doubleJumpingPower
