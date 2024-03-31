@@ -12,6 +12,24 @@ namespace FireElemental
         private Rigidbody2D _fireElRb;
         [SerializeField] private float moveSpeed;
         private Collider2D _collider;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+
+        private Animator _anim;
+        private Vector2 _moveInput;
+        private bool _isMoving = false;
+
+        public bool IsMoving
+        {
+            get
+            {
+                return _isMoving;
+            }
+            private set
+            {
+                _isMoving = value;
+                _anim.SetBool("isMoving", value);
+            }
+        }
 
         // **************** JUMP - RELATED *****************
         [SerializeField] private float jumpPower;
@@ -40,6 +58,8 @@ namespace FireElemental
             }
             _controls.Gameplay.Enable();
 
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            _anim = GetComponent<Animator>();
             _collider = GetComponent<Collider2D>();
             InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
@@ -67,6 +87,10 @@ namespace FireElemental
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            _moveInput = context.ReadValue<Vector2>();
+            IsMoving = _moveInput != Vector2.zero;
+
+            spriteRenderer.flipX = _moveInput.x < 0;
         }
 
         public void OnJump(InputAction.CallbackContext context)
