@@ -16,35 +16,22 @@ namespace FireElemental
 
         private Animator _anim;
         private Vector2 _moveInput;
-        private bool _isMoving = false;
 
-        public bool IsMoving
-        {
-            get
-            {
-                return _isMoving;
-            }
-            private set
-            {
-                _isMoving = value;
-                _anim.SetBool("isMoving", value);
-            }
-        }
 
         // **************** JUMP - RELATED *****************
         [SerializeField] private float jumpPower;
         // *************************************************
 
         // **************** BALOON - RELATED *****************
-        [SerializeField] private LayerMask baloonLayer;
-        private bool _onBaloon;
+        private bool _onBalloon;
         // *************************************************
 
         // **************** GROUND - CHECK *****************
         private bool _isGrounded;
-        [SerializeField] private Transform feetPos;
         [SerializeField] private float castDistance;
         [SerializeField] private LayerMask groundLayer;
+
+        [SerializeField] private GameObject boxRef;
         // *************************************************
 
         public static UnityEvent InteractPressed;
@@ -73,11 +60,22 @@ namespace FireElemental
         void Update()
         {
             _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
-            // **************** GROUND - CHECK *****************
-            _isGrounded = Physics2D.OverlapCircle(feetPos.position, castDistance, groundLayer);
-            // *************************************************
+            _isGrounded = IsGrounded();
+        }
 
-            _onBaloon = Physics2D.OverlapCircle(feetPos.position, castDistance, baloonLayer);
+        private bool IsGrounded()
+        {
+            Vector2 boxSize = new(.25f,.01f);
+            bool hit2D = Physics2D.BoxCast(
+                transform.position - new Vector3(0, spriteRenderer.bounds.extents.y + boxSize.y + .01f, 0), boxSize,
+                0, Vector2.down, boxSize.y);
+
+            //visualization
+            boxRef.transform.position =
+                transform.position - new Vector3(0, spriteRenderer.bounds.extents.y + boxSize.y + .01f, 0);
+            boxRef.transform.localScale = boxSize;
+
+            return hit2D;
         }
 
         public static void Death()
@@ -88,26 +86,18 @@ namespace FireElemental
         public void OnMove(InputAction.CallbackContext context)
         {
             _moveInput = context.ReadValue<Vector2>();
-            IsMoving = _moveInput != Vector2.zero;
 
             spriteRenderer.flipX = _moveInput.x < 0;
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (!_isGrounded || _onBaloon)
+            if (!_isGrounded || _onBalloon)
             {
                 return;
             }
             
             _fireElRb.velocity = new Vector2(_fireElRb.velocity.x, jumpPower);
-        }
-
-        private void OnDrawGizmos()
-        {
-            var bounds = GetComponent<Collider2D>().bounds;
-            Debug.DrawRay(bounds.center, new Vector3(0, -bounds.extents.y + -castDistance));
-            Gizmos.DrawWireCube(transform.position,bounds.size);
         }
 
         public void OnInteract(InputAction.CallbackContext context)
