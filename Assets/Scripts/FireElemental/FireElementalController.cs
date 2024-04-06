@@ -1,4 +1,5 @@
 using System;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -27,11 +28,10 @@ namespace FireElemental
         // *************************************************
 
         // **************** GROUND - CHECK *****************
-        private bool _isGrounded;
+        [ReadOnly][SerializeField] private bool _isGrounded;
         [SerializeField] private float castDistance;
-        [SerializeField] private LayerMask groundLayer;
 
-        [SerializeField] private GameObject boxRef;
+        [SerializeField] private bool enableDebugBox;
         // *************************************************
 
         public static UnityEvent InteractPressed;
@@ -67,13 +67,19 @@ namespace FireElemental
         {
             Vector2 boxSize = new(.25f,.01f);
             bool hit2D = Physics2D.BoxCast(
-                transform.position - new Vector3(0, spriteRenderer.bounds.extents.y + boxSize.y + .01f, 0), boxSize,
-                0, Vector2.down, boxSize.y);
+                transform.position - new Vector3(0, _collider.bounds.extents.y + boxSize.y , 0), boxSize,
+                0, Vector2.down, boxSize.y + .1f, LayerMask.GetMask("Ground"));
 
             //visualization
-            boxRef.transform.position =
-                transform.position - new Vector3(0, spriteRenderer.bounds.extents.y + boxSize.y + .01f, 0);
-            boxRef.transform.localScale = boxSize;
+            //not complete
+            //if (enableDebugBox)
+            //{
+            //    GameObject boxRef = new("DebugBox", typeof(SpriteRenderer));
+            //    boxRef.GetComponent<SpriteRenderer>().sprite
+            //    boxRef.transform.position =
+            //        transform.position - new Vector3(0, _collider.bounds.extents.y + boxSize.y , 0);
+            //    boxRef.transform.localScale = new Vector3(boxSize.x, boxSize.y + .1f);
+            //}
 
             return hit2D;
         }
