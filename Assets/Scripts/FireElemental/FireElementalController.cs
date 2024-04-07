@@ -13,26 +13,24 @@ namespace FireElemental
         private Rigidbody2D _fireElRb;
         [SerializeField] private float moveSpeed;
         private Collider2D _collider;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
 
-        private Animator _anim;
         private Vector2 _moveInput;
 
-
-        // **************** JUMP - RELATED *****************
+        #region Jump 
+        
+        [ReadOnly][SerializeField] private bool isGrounded;
         [SerializeField] private float jumpPower;
-        // *************************************************
+        [SerializeField] private float defaultGravityScale;
+        [SerializeField] private float fallingGravityScale;
+        
+        #endregion 
 
-        // **************** BALOON - RELATED *****************
+        #region Balloon
+
         private bool _onBalloon;
-        // *************************************************
 
-        // **************** GROUND - CHECK *****************
-        [ReadOnly][SerializeField] private bool _isGrounded;
-        [SerializeField] private float castDistance;
-
-        [SerializeField] private bool enableDebugBox;
-        // *************************************************
+        #endregion
 
         public static UnityEvent InteractPressed;
 
@@ -45,8 +43,7 @@ namespace FireElemental
             }
             _controls.Gameplay.Enable();
 
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            _anim = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<Collider2D>();
             InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
@@ -59,8 +56,16 @@ namespace FireElemental
 
         void Update()
         {
-            _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
-            _isGrounded = IsGrounded();
+            
+            isGrounded = IsGrounded();
+            if (_fireElRb.velocity.y >= 0)
+            {
+                _fireElRb.gravityScale = defaultGravityScale;
+            }
+            else
+            {
+                _fireElRb.gravityScale = fallingGravityScale;
+            }
         }
 
         private bool IsGrounded()
@@ -69,17 +74,6 @@ namespace FireElemental
             bool hit2D = Physics2D.BoxCast(
                 transform.position - new Vector3(0, _collider.bounds.extents.y + boxSize.y , 0), boxSize,
                 0, Vector2.down, boxSize.y + .1f, LayerMask.GetMask("Ground"));
-
-            //visualization
-            //not complete
-            //if (enableDebugBox)
-            //{
-            //    GameObject boxRef = new("DebugBox", typeof(SpriteRenderer));
-            //    boxRef.GetComponent<SpriteRenderer>().sprite
-            //    boxRef.transform.position =
-            //        transform.position - new Vector3(0, _collider.bounds.extents.y + boxSize.y , 0);
-            //    boxRef.transform.localScale = new Vector3(boxSize.x, boxSize.y + .1f);
-            //}
 
             return hit2D;
         }
@@ -91,19 +85,34 @@ namespace FireElemental
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
+
+            Debug.Log(context.phase);
             _moveInput = context.ReadValue<Vector2>();
 
-            spriteRenderer.flipX = _moveInput.x < 0;
+            _spriteRenderer.flipX = _moveInput.x < 0;
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (!_isGrounded || _onBalloon)
+            switch (context.phase)
             {
-                return;
+                case InputActionPhase.Started when !isGrounded || _onBalloon:
+                    return;
+                case InputActionPhase.Started:
+                    _fireElRb.velocity = new Vector2(_fireElRb.velocity.x, jumpPower);
+                    break;
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Performed:
+                    break;
+                case InputActionPhase.Canceled:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            
-            _fireElRb.velocity = new Vector2(_fireElRb.velocity.x, jumpPower);
         }
 
         public void OnInteract(InputAction.CallbackContext context)

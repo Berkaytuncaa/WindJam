@@ -101,16 +101,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  spriteRenderer: {fileID: 0}
+  isGrounded: 0
   jumpPower: 5
-  baloonLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  feetPos: {fileID: 0}
-  castDistance: 0.03
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  defaultGravityScale: 0.8
+  fallingGravityScale: 3
 --- !u!70 &3669908283156713025
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -161,7 +155,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
