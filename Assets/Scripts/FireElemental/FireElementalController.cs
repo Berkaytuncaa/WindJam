@@ -11,20 +11,28 @@ namespace FireElemental
     {
         private FireElementalControls _controls;
         private Rigidbody2D _fireElRb;
-        [SerializeField] private float moveSpeed;
         private Collider2D _collider;
         private SpriteRenderer _spriteRenderer;
 
+        #region Move
+
+        [Header("Move")] 
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float moveCancelForce;
         private Vector2 _moveInput;
+
+        #endregion
 
         #region Jump 
         
+        [Header("Jump")]
         [ReadOnly][SerializeField] private bool isGrounded;
         [SerializeField] private float jumpPower;
         [SerializeField] private float defaultGravityScale;
         [SerializeField] private float fallingGravityScale;
         [ReadOnly] [SerializeField] private bool isJumping;
         [SerializeField] private float maxJumpTimeBound;
+        [SerializeField] private float jumpCancelForce;
         
         #endregion 
 
@@ -54,7 +62,7 @@ namespace FireElemental
         private void Update()
         {
             isGrounded = IsGrounded();
-            //_fireElRb.gravityScale = _fireElRb.velocity.y >= 0 ? defaultGravityScale : fallingGravityScale;
+            _fireElRb.gravityScale = _fireElRb.velocity.y >= 0 ? defaultGravityScale : fallingGravityScale;
         }
 
         private bool IsGrounded()
@@ -72,34 +80,51 @@ namespace FireElemental
             throw new NotImplementedException();
         }
 
+
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            switch (context.phase)
             {
-                StartCoroutine(nameof(MoveRoutine));
+                case InputActionPhase.Performed:
+                    _moveInput = context.ReadValue<Vector2>();
+                    StartCoroutine(nameof(MoveRoutine));
+                    _spriteRenderer.flipX = _moveInput.x < 0;
+                    break;
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Started:
+                    break;
+                case InputActionPhase.Canceled:
+                    _moveInput = context.ReadValue<Vector2>();
+                    //_fireElRb.velocity = new Vector2(0, _fireElRb.velocity.y);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else
-            {
-                _fireElRb.velocity = new Vector2(0, _fireElRb.velocity.y);
-                StopCoroutine(nameof(MoveRoutine));
-            }
-
-            _moveInput = context.ReadValue<Vector2>();
-
-            _spriteRenderer.flipX = _moveInput.x < 0;
         }
         
         //absolutely no need to use this, it's just for my fantasy fulfillment
         private IEnumerator MoveRoutine()
         {
-            while (true)
+            while (_moveInput.x != 0)
             {
-                _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
+                _fireElRb.velocity = new Vector2(_moveInput.x * moveSpeed, _fireElRb.velocity.y);
                 yield return new WaitForFixedUpdate();
             }
-            // ReSharper disable once IteratorNeverReturns
-            // cuz I couldn't figure out any other way to break the loop other than StopCoroutine in the outer scope
-            // actually a global variable isMoving could be made to keep track of when the while loop should end but... nah
+
+            while (_fireElRb.velocity.x > 0)
+            {
+                _fireElRb.AddForce(Vector2.left * moveCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
+
+            while (_fireElRb.velocity.x < 0)
+            {
+                _fireElRb.AddForce(Vector2.right * moveCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         public void OnJump(InputAction.CallbackContext context)
@@ -107,10 +132,10 @@ namespace FireElemental
             switch (context.phase)
             {
                 case InputActionPhase.Started when !isGrounded || _onBalloon:
-                    return;
+                    break;
                 case InputActionPhase.Started:
-                    float jumpForce = Mathf.Sqrt(jumpPower * -2 * (Physics2D.gravity.y * _fireElRb.gravityScale));
-                    _fireElRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                    float jumpForce = Mathf.Sqrt(jumpPower * -2 * (Physics2D.gravity.y * defaultGravityScale));
+                    _fireElRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     isJumping = true;
                     break;
                 case InputActionPhase.Disabled:
@@ -139,7 +164,11 @@ namespace FireElemental
                yield return new WaitForFixedUpdate();
             }
 
-            _fireElRb.AddForce(Vector2.down * 1000, ForceMode2D.Force);
+            while (_fireElRb.velocity.y > 0)
+            {
+                _fireElRb.AddForce(Vector2.down * jumpCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext context)
