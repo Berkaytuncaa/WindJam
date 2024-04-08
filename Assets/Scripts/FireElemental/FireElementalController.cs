@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace FireElemental
 {
+    // about the whole movement thing: https://gamedevbeginner.com/how-to-jump-in-unity-with-or-without-physics/
     public class FireElementalController : MonoBehaviour, FireElementalControls.IGameplayActions
     {
         private FireElementalControls _controls;
