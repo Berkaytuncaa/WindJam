@@ -1,51 +1,47 @@
 using System;
+using System.Collections;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace FireElemental
 {
+    // about the whole movement thing: https://gamedevbeginner.com/how-to-jump-in-unity-with-or-without-physics/
     public class FireElementalController : MonoBehaviour, FireElementalControls.IGameplayActions
     {
         private FireElementalControls _controls;
         private Rigidbody2D _fireElRb;
-        [SerializeField] private float moveSpeed;
         private Collider2D _collider;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
 
-        private Animator _anim;
+        #region Move
+
+        [Header("Move")] 
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float moveCancelForce;
         private Vector2 _moveInput;
-        private bool _isMoving = false;
 
-        public bool IsMoving
-        {
-            get
-            {
-                return _isMoving;
-            }
-            private set
-            {
-                _isMoving = value;
-                _anim.SetBool("isMoving", value);
-            }
-        }
+        #endregion
 
-        // **************** JUMP - RELATED *****************
+        #region Jump 
+        
+        [Header("Jump")]
+        [ReadOnly][SerializeField] private bool isGrounded;
         [SerializeField] private float jumpPower;
-        // *************************************************
+        [SerializeField] private float defaultGravityScale;
+        [SerializeField] private float fallingGravityScale;
+        [ReadOnly] [SerializeField] private bool isJumping;
+        [SerializeField] private float maxJumpTimeBound;
+        [SerializeField] private float jumpCancelForce;
+        
+        #endregion 
 
-        // **************** BALOON - RELATED *****************
-        [SerializeField] private LayerMask baloonLayer;
-        private bool _onBaloon;
-        // *************************************************
+        #region Balloon
 
-        // **************** GROUND - CHECK *****************
-        private bool _isGrounded;
-        [SerializeField] private Transform feetPos;
-        [SerializeField] private float castDistance;
-        [SerializeField] private LayerMask groundLayer;
-        // *************************************************
+        private bool _onBalloon;
+
+        #endregion
 
         public static UnityEvent InteractPressed;
 
@@ -58,26 +54,26 @@ namespace FireElemental
             }
             _controls.Gameplay.Enable();
 
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            _anim = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<Collider2D>();
             InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
         }
 
-        void Start()
+        private void Update()
         {
-
+            isGrounded = IsGrounded();
+            _fireElRb.gravityScale = _fireElRb.velocity.y >= 0 ? defaultGravityScale : fallingGravityScale;
         }
 
-        void Update()
+        private bool IsGrounded()
         {
-            _fireElRb.velocity = new Vector2((_controls.Gameplay.Move.ReadValue<Vector2>() * moveSpeed).x, _fireElRb.velocity.y);
-            // **************** GROUND - CHECK *****************
-            _isGrounded = Physics2D.OverlapCircle(feetPos.position, castDistance, groundLayer);
-            // *************************************************
-
-            _onBaloon = Physics2D.OverlapCircle(feetPos.position, castDistance, baloonLayer);
+            Vector2 boxSize = new(.25f,.01f);
+            bool hit2D = Physics2D.BoxCast(
+                transform.position - new Vector3(0, _collider.bounds.extents.y + boxSize.y , 0), boxSize,
+                0, Vector2.down, boxSize.y + .1f, LayerMask.GetMask("Ground"));
+            
+            return hit2D;
         }
 
         public static void Death()
@@ -85,29 +81,95 @@ namespace FireElemental
             throw new NotImplementedException();
         }
 
+
         public void OnMove(InputAction.CallbackContext context)
         {
-            _moveInput = context.ReadValue<Vector2>();
-            IsMoving = _moveInput != Vector2.zero;
+            switch (context.phase)
+            {
+                case InputActionPhase.Performed:
+                    _moveInput = context.ReadValue<Vector2>();
+                    StartCoroutine(nameof(MoveRoutine));
+                    _spriteRenderer.flipX = _moveInput.x < 0;
+                    break;
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Started:
+                    break;
+                case InputActionPhase.Canceled:
+                    _moveInput = context.ReadValue<Vector2>();
+                    //_fireElRb.velocity = new Vector2(0, _fireElRb.velocity.y);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        //absolutely no need to use this, it's just for my fantasy fulfillment
+        private IEnumerator MoveRoutine()
+        {
+            while (_moveInput.x != 0)
+            {
+                _fireElRb.velocity = new Vector2(_moveInput.x * moveSpeed, _fireElRb.velocity.y);
+                yield return new WaitForFixedUpdate();
+            }
 
-            spriteRenderer.flipX = _moveInput.x < 0;
+            while (_fireElRb.velocity.x > 0)
+            {
+                _fireElRb.AddForce(Vector2.left * moveCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
+
+            while (_fireElRb.velocity.x < 0)
+            {
+                _fireElRb.AddForce(Vector2.right * moveCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (!_isGrounded || _onBaloon)
+            switch (context.phase)
             {
-                return;
+                case InputActionPhase.Started when !isGrounded || _onBalloon:
+                    break;
+                case InputActionPhase.Started:
+                    float jumpForce = Mathf.Sqrt(jumpPower * -2 * (Physics2D.gravity.y * defaultGravityScale));
+                    _fireElRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                    isJumping = true;
+                    break;
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Performed:
+                    StartCoroutine(nameof(JumpRoutine));
+                    break;
+                case InputActionPhase.Canceled:
+                    isJumping = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            
-            _fireElRb.velocity = new Vector2(_fireElRb.velocity.x, jumpPower);
         }
 
-        private void OnDrawGizmos()
+        private IEnumerator JumpRoutine()
         {
-            var bounds = GetComponent<Collider2D>().bounds;
-            Debug.DrawRay(bounds.center, new Vector3(0, -bounds.extents.y + -castDistance));
-            Gizmos.DrawWireCube(transform.position,bounds.size);
+            // create timer in coroutine
+            float jumpTime = 0;
+            while (isJumping && jumpTime <= maxJumpTimeBound)
+            {
+               //_fireElRb.velocity = new Vector2(_fireElRb.velocity.x, jumpPower);
+               jumpTime += Time.deltaTime;
+               yield return new WaitForFixedUpdate();
+            }
+
+            while (_fireElRb.velocity.y > 0)
+            {
+                _fireElRb.AddForce(Vector2.down * jumpCancelForce, ForceMode2D.Force);
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext context)

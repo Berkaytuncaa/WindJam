@@ -73,7 +73,7 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardControlScheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -84,7 +84,7 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardControlScheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -95,7 +95,7 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardControlScheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -106,7 +106,7 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardControlScheme"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -117,7 +117,7 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""kbdScheme"",
+                    ""groups"": ""KeyboardControlScheme"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -127,8 +127,8 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""kbdScheme"",
-            ""bindingGroup"": ""kbdScheme"",
+            ""name"": ""KeyboardControlScheme"",
+            ""bindingGroup"": ""KeyboardControlScheme"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
@@ -263,13 +263,13 @@ public partial class @FireElementalControls: IInputActionCollection2, IDisposabl
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
-    private int m_kbdSchemeSchemeIndex = -1;
-    public InputControlScheme kbdSchemeScheme
+    private int m_KeyboardControlSchemeSchemeIndex = -1;
+    public InputControlScheme KeyboardControlSchemeScheme
     {
         get
         {
-            if (m_kbdSchemeSchemeIndex == -1) m_kbdSchemeSchemeIndex = asset.FindControlSchemeIndex("kbdScheme");
-            return asset.controlSchemes[m_kbdSchemeSchemeIndex];
+            if (m_KeyboardControlSchemeSchemeIndex == -1) m_KeyboardControlSchemeSchemeIndex = asset.FindControlSchemeIndex("KeyboardControlScheme");
+            return asset.controlSchemes[m_KeyboardControlSchemeSchemeIndex];
         }
     }
     public interface IGameplayActions
