@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace FireElemental
 {
@@ -14,6 +16,16 @@ namespace FireElemental
         private Rigidbody2D _fireElRb;
         private Collider2D _collider;
         private SpriteRenderer _spriteRenderer;
+
+        private ParticleSystem _particleSystem;
+        
+        #region Animator
+
+        private Animator _animator;
+        private readonly int _isMovingHash = Animator.StringToHash("isMoving");
+
+        #endregion
+        
 
         #region Move
 
@@ -35,7 +47,18 @@ namespace FireElemental
         [SerializeField] private float maxJumpTimeBound;
         [SerializeField] private float jumpCancelForce;
         
-        #endregion 
+        #endregion
+
+        #region Dash
+
+        [Header("Dash")] 
+        [ReadOnly] [SerializeField] private bool isDashing;
+        [ReadOnly] [SerializeField] private bool canDash = true;
+        [SerializeField] private float dashPower;
+        [SerializeField] private float dashDuration;
+        [SerializeField] private float dashCooldown;
+
+        #endregion
 
         #region Balloon
 
@@ -44,6 +67,7 @@ namespace FireElemental
         #endregion
 
         public static UnityEvent InteractPressed;
+        private FireElementalControls.IGameplayActions _gameplayActionsImplementation;
 
         private void Awake()
         {
@@ -58,12 +82,27 @@ namespace FireElemental
             _collider = GetComponent<Collider2D>();
             InteractPressed = new UnityEvent();
             _fireElRb = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
+
+            _particleSystem = GetComponentInChildren<ParticleSystem>();
+            _particleSystem.Stop();
+            
+            StartCoroutine(nameof(HandleGravity));
         }
 
         private void Update()
         {
             isGrounded = IsGrounded();
-            _fireElRb.gravityScale = _fireElRb.velocity.y >= 0 ? defaultGravityScale : fallingGravityScale;
+        }
+
+        private IEnumerator HandleGravity()
+        {
+            while (true)
+            {
+                _fireElRb.gravityScale = _fireElRb.velocity.y >= 0 ? defaultGravityScale : fallingGravityScale;
+                yield return new WaitForFixedUpdate();
+            }
+            // ReSharper disable once IteratorNeverReturns
         }
 
         private bool IsGrounded()
@@ -88,8 +127,9 @@ namespace FireElemental
             {
                 case InputActionPhase.Performed:
                     _moveInput = context.ReadValue<Vector2>();
-                    StartCoroutine(nameof(MoveRoutine));
                     _spriteRenderer.flipX = _moveInput.x < 0;
+                    _animator.SetBool(_isMovingHash, true);
+                    StartCoroutine(nameof(MoveRoutine));
                     break;
                 case InputActionPhase.Disabled:
                     break;
@@ -99,7 +139,7 @@ namespace FireElemental
                     break;
                 case InputActionPhase.Canceled:
                     _moveInput = context.ReadValue<Vector2>();
-                    //_fireElRb.velocity = new Vector2(0, _fireElRb.velocity.y);
+                    _animator.SetBool(_isMovingHash, false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -175,6 +215,52 @@ namespace FireElemental
         public void OnInteract(InputAction.CallbackContext context)
         { 
             InteractPressed.Invoke();
+        }
+
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            switch (context.phase)
+            {
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Started when isDashing || !canDash:
+                    break;
+                case InputActionPhase.Started:
+                    StartCoroutine(nameof(DashRoutine));
+                    break;
+                case InputActionPhase.Performed:
+                    break;
+                case InputActionPhase.Canceled:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private IEnumerator DashRoutine()
+        {
+            _controls.Gameplay.Move.Disable();
+            isDashing = true;
+            canDash = false;
+            StopCoroutine(nameof(HandleGravity));
+            _fireElRb.gravityScale = 0;
+            
+            _particleSystem.Play();
+            
+            _fireElRb.AddForce((_spriteRenderer.flipX ? Vector2.left : Vector2.right) * dashPower, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(dashDuration);
+            
+            _fireElRb.velocity = Vector2.zero;
+            StartCoroutine(nameof(HandleGravity));
+            isDashing = false;
+            
+            _controls.Gameplay.Move.Enable();
+            _particleSystem.Stop();
+
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
         }
     }
 }
